@@ -1,0 +1,115 @@
+<html lang="en">
+<head>
+    <title>AC Reward Space Linker</title>
+
+    <meta name="referrer" content="none"/>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1069.0.min.js"></script>
+    <script src="js/linker.js"></script>
+</head>
+<body>
+
+<div id="eventBanner">
+    <br/>
+    <span style="color: red;"><b>Interested in attending <a href="https://thetravelsummit.com/">The Travel Summit</a>? (April 26-28 2024)</b></span><br/>
+    The Travel Summit is a gathering place for anyone for whom travel is a core part of their identity, and who wishes to unlock the freedom of travelling the world on their own terms. Attendees will be immersed in a series of presentations, panels, and workshops by the most brilliant minds in travel, meet and mingle with hundreds of fellow travel enthusiasts, and fast-track their abilities to maximize rewards points and loyalty programs - a key tool in every traveller's toolbox.<br/>
+    <span style="color: blue;">Purchase your ticket on or before March 14 to be entered into a special prize drawing for a stay up to three nights at The Westin Harbour Castle (for the weekend of The Travel Summit), and all subsequent drawings.</span><br/>
+    Use discount code <b>cowtool</b> to save $25.
+    <br/>
+</div>
+
+<div>This cowtool is meant to be a free service, but if you find it helpful, you can <a href="https://www.cowtool.com/contribute.html" target="_blank">pay what you want</a>.</div>
+
+<br/>
+
+<div>
+    <form id="searchForm" onsubmit="return false;">
+        <table border="0">
+            <tr>
+                <td><label for="pax">Passengers</label></td>
+                <td><input type="number" name="pax" id="pax" min="1" max="9" required title="Passengers" value="1"/>
+                    <input type="number" name="paxParam" id="paxParam" required value="1" style="display: none;"
+                           readonly/>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="origins">Origins</label></td>
+                <td><input type="text" name="origins" id="origins" style="text-transform: uppercase;" required
+                           pattern="[a-zA-Z]{3}(\s*,\s*[a-zA-Z]{3})*" title="Comma-separated origin airport IATA codes"
+                           placeholder="YVR,YYZ"/>
+                    <input type="text" name="originsParam" id="originsParam" style="display: none;" required
+                           readonly/>
+                    <br/></td>
+                <td rowspan="2">
+                    <button type="button" id="swapOriginsDestinations" tabindex="-1">Swap</button>
+                    <span id="searchCitiesError" style="display: none; color: red;"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="destinations">Destinations</label></td>
+                <td><input type="text" name="destinations" id="destinations" style="text-transform: uppercase;" required
+                           pattern="[a-zA-Z]{3}(\s*,\s*[a-zA-Z]{3})*"
+                           title="Comma-separated destination airport IATA codes"
+                           placeholder="LHR,CDG,ZRH"/>
+                    <input type="text" name="destinationsParam" id="destinationsParam" style="display: none;" required
+                           readonly/>
+                    <br/></td>
+            </tr>
+            <tr>
+                <td><label for="dates">Dates</label></td>
+                <td><input type="text" name="dates" id="dates" required
+                           pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}(\s*[,:]\s*[0-9]{4}-[0-9]{2}-[0-9]{2})*"
+                           title="Comma-separated dates in YYYY-MM-DD format, and ranges in YYYY-MM-DD:YYYY-MM-DD format"
+                           placeholder="2023-03-04,2022-03-11:2023-03-13"/>
+                    <input type="text" name="datesParam" id="datesParam" required
+                           style="display: none;" readonly/>
+                </td>
+                <td>(comma separated like
+                    "2023-08-10,2023-08-11", colon separated for ranges like "2023-08-10:2023-08-20", or a combination
+                    like "2023-08-10:2023-08-20,2023-08-23")<br/></td>
+            </tr>
+            <tr>
+                <td><label for="datePicker">Calendar</label></td>
+                <td>
+                    <input type="text" name="datePicker" id="datePicker" readonly
+                           placeholder="Select to open calendar"/></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><label for="stopoverLocations">Stopover&nbsp;Locations</label></td>
+                <td><input type="text" name="stopoverLocations" id="stopoverLocations"
+                           style="text-transform: uppercase;"
+                           pattern="[a-zA-Z]{3}(\s*,\s*[a-zA-Z]{3})*"
+                           title="Comma-separated destination airport IATA codes"
+                           placeholder="LHR,CDG,ZRH"/>
+                    <input type="text" name="stopoverLocationsParam" id="stopoverLocationsParam"
+                           style="display: none;" readonly/>
+                    <br/></td>
+            </tr>
+            <tr>
+                <td><label for="stopoverLengths">Stopover&nbsp;Durations</label></td>
+                <td><input type="text" name="stopoverLengths" id="stopoverLengths" style="text-transform: uppercase;"
+                           pattern="(4[0-5]|[1-3][0-9]|[1-9])(\s*,\s*(4[0-5]|[1-3][0-9]|[1-9]))*"
+                           title="Comma-separated durations in days"
+                           placeholder="9,10,11,12"/>
+                    <input type="text" name="stopoverLengthsParam" id="stopoverLengthsParam" style="display: none;"
+                           readonly/>
+                    <br/></td>
+                <td>(comma separated like "9,10,11,12", maximum 45)<br/></td>
+            </tr>
+        </table>
+        <button type="submit" id="search" onclick="generateLinks();return false;">Generate links</button>
+    </form>
+</div>
+
+<div id="resultsContainer"></div>
+
+<div><br/>By accessing, linking to or using this site, you agree to be bound by cowtool's <a href="https://www.cowtool.com/tou.html">terms of use</a>.</div>
+
+</body>
+</html>
