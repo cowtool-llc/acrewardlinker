@@ -12,7 +12,7 @@ function generateLinks() {
     origins.forEach((origin) => {
         destinations.forEach((destination) => {
             dates.forEach((date) => {
-                const row = `<tr><td>${origin}</td><td>${destination}</td><td>${date}</td><td><a href="https://www.aircanada.com/aeroplan/redeem/availability/outbound?tripType=O&org0=${origin}&dest0=${destination}&departureDate0=${date}&ADT=pax">AC.com</a></td></tr>`;
+                const row = `<tr><td>${origin}</td><td>${destination}</td><td>${date}</td><td><a target="_blank" href="https://www.aircanada.com/aeroplan/redeem/availability/outbound?tripType=O&org0=${origin}&dest0=${destination}&departureDate0=${date}&ADT=${pax}">AC.com</a></td></tr>`;
                 results += row;
             });
         });
