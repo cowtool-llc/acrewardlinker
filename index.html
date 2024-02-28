@@ -76,36 +76,7 @@
                 </td>
                 <td>(comma separated like
                     "2023-08-10,2023-08-11", colon separated for ranges like "2023-08-10:2023-08-20", or a combination
-                    like "2023-08-10:2023-08-20,2023-08-23")<br/></td>
-            </tr>
-            <tr>
-                <td><label for="datePicker">Calendar</label></td>
-                <td>
-                    <input type="text" name="datePicker" id="datePicker" readonly
-                           placeholder="Select to open calendar"/></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><label for="stopoverLocations">Stopover&nbsp;Locations</label></td>
-                <td><input type="text" name="stopoverLocations" id="stopoverLocations"
-                           style="text-transform: uppercase;"
-                           pattern="[a-zA-Z]{3}(\s*,\s*[a-zA-Z]{3})*"
-                           title="Comma-separated destination airport IATA codes"
-                           placeholder="LHR,CDG,ZRH"/>
-                    <input type="text" name="stopoverLocationsParam" id="stopoverLocationsParam"
-                           style="display: none;" readonly/>
-                    <br/></td>
-            </tr>
-            <tr>
-                <td><label for="stopoverLengths">Stopover&nbsp;Durations</label></td>
-                <td><input type="text" name="stopoverLengths" id="stopoverLengths" style="text-transform: uppercase;"
-                           pattern="(4[0-5]|[1-3][0-9]|[1-9])(\s*,\s*(4[0-5]|[1-3][0-9]|[1-9]))*"
-                           title="Comma-separated durations in days"
-                           placeholder="9,10,11,12"/>
-                    <input type="text" name="stopoverLengthsParam" id="stopoverLengthsParam" style="display: none;"
-                           readonly/>
-                    <br/></td>
-                <td>(comma separated like "9,10,11,12", maximum 45)<br/></td>
+                    like "2023-08-10:2023-08-20,2023-08-23")<span style="color: red;"> COLONS DO NOT WORK YET</span><br/></td>
             </tr>
         </table>
         <button type="submit" id="search" onclick="generateLinks();return false;">Generate links</button>
